@@ -54,32 +54,32 @@ namespace LethalEffectsAPI
         }
 
         public virtual ulong ID => 0uL;
-        public float Duration => _duration;
-        public float maxDuration => _maxDuration;
-        public bool doTime => _doTime;
+        public float effectDestructionTimer => _effectDestructionTimer;
+        public float effectDestruction => _effectDestruction;
+        public bool doEffectDestruction => _doEffectDestruction;
         public GameObject Target => _target;
         public float effectIntervalTimer => _effectIntervalTimer;
         public float effectInterval => _effectInterval;
-        public NetworkObject networkObject => _networkObject;
+        public NetworkObject? networkObject => _networkObject;
 
-        protected float _duration = 0f;
-        protected float _maxDuration = 10f;
-        protected bool _doTime = false;
+        protected float _effectDestructionTimer = 0f;
+        protected float _effectDestruction = 10f;
+        protected bool _doEffectDestruction = false;
         protected GameObject _target;
         protected float _effectIntervalTimer;
         protected float _effectInterval;
+        protected bool _returnNextFrame = false;
 
-        private bool _returnNextFrame = false;
         private NetworkObject? _networkObject;
 
 
         public virtual void Initialize(GameObject target)
         {
-            LethalEffectsAPI.Logger.LogDebug($"Initializing {this}.");
+            LethalEffectAPI.Logger.LogDebug($"Initializing {this}.");
 
             _target = target;
 
-            if (TryGetComponent(out NetworkObject networkObject)) _networkObject = networkObject;
+            if (_target.TryGetComponent(out NetworkObject networkObject)) _networkObject = networkObject;
             else _networkObject = null;
         }
 
@@ -91,10 +91,10 @@ namespace LethalEffectsAPI
                 return;
             }
 
-            _duration += Time.deltaTime;
+            _effectDestructionTimer += Time.deltaTime;
             _effectIntervalTimer += Time.deltaTime;
 
-            if (_duration >= _maxDuration && doTime) Destroy();
+            if (_effectDestructionTimer >= _effectDestruction && doEffectDestruction) Destroy();
 
             if (_effectIntervalTimer >= effectInterval)
             {
@@ -105,7 +105,7 @@ namespace LethalEffectsAPI
 
         public virtual bool Destroy()
         {
-            LethalEffectsAPI.Logger.LogDebug($"Destroying {this}.");
+            LethalEffectAPI.Logger.LogDebug($"Destroying {this}.");
 
             if (_networkObject != null)
             {
@@ -119,18 +119,18 @@ namespace LethalEffectsAPI
 
         public virtual void DoEffectInterval()
         {
-            LethalEffectsAPI.Logger.LogDebug($"Looping {this}.");
+            LethalEffectAPI.Logger.LogDebug($"Looping {this}.");
         }
 
 
         #region Debug
         public virtual void OnDisable()
         {
-            LethalEffectsAPI.Logger.LogDebug($"Disabling {this}.");
+            LethalEffectAPI.Logger.LogDebug($"Disabling {this}.");
         }
         public virtual void OnEnable()
         {
-            LethalEffectsAPI.Logger.LogDebug($"Enabling {this}.");
+            LethalEffectAPI.Logger.LogDebug($"Enabling {this}.");
         }
         #endregion
 

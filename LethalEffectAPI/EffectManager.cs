@@ -34,7 +34,7 @@ namespace LethalEffectsAPI
         {
             foreach (Component component in target.GetComponents(type))
             {
-                LethalEffectsAPI.Logger.LogDebug($"Destroying {component}.");
+                LethalEffectAPI.Logger.LogDebug($"Destroying {component}.");
                 UnityEngine.Object.Destroy(component);
             }
         }
@@ -57,8 +57,8 @@ namespace LethalEffectsAPI
                 // check if there is confliction
                 if (EffectRegistry[id] != type)
                 {
-                    LethalEffectsAPI.Logger.LogWarning($"Effects named {EffectRegistry[id].Name} and {type.Name} conflict over id number: {id}.");
-                    LethalEffectsAPI.Logger.LogWarning("Fixing conflict. (this might break networking)");
+                    LethalEffectAPI.Logger.LogWarning($"Effects named {EffectRegistry[id].Name} and {type.Name} conflict over id number: {id}.");
+                    LethalEffectAPI.Logger.LogWarning("Fixing conflict. (this might break networking)");
 
                     RegisterEffect(type, id + 1);
                     return;
@@ -66,7 +66,7 @@ namespace LethalEffectsAPI
                 // check if effect is registered twice
                 else if (EffectRegistry[id] == type)
                 {
-                    LethalEffectsAPI.Logger.LogWarning($"Effect named {EffectRegistry[id].Name} is registered multiple times.");
+                    LethalEffectAPI.Logger.LogWarning($"Effect named {EffectRegistry[id].Name} is registered multiple times.");
                     return;
                 }
             }

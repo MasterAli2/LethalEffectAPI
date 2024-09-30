@@ -8,13 +8,16 @@ using LobbyCompatibility.Enums;
 
 namespace LethalEffectsAPI
 {
-    [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(GUID, NAME, VERSION)]
     [BepInDependency("BMX.LobbyCompatibility", BepInDependency.DependencyFlags.HardDependency)]
     [LobbyCompatibility(CompatibilityLevel.Everyone, VersionStrictness.None)]
     [BepInDependency(StaticNetcodeLib.StaticNetcodeLib.Guid)]
-    public class LethalEffectsAPI : BaseUnityPlugin
+    public class LethalEffectAPI : BaseUnityPlugin
     {
-        public static LethalEffectsAPI Instance { get; private set; } = null!;
+        public const string GUID = "MasterAli2.LethalEffectAPI";
+        public const string NAME = "LethalEffectAPI";
+        public const string VERSION = "1.0.0";
+        public static LethalEffectAPI Instance { get; private set; } = null!;
         internal new static ManualLogSource Logger { get; private set; } = null!;
         internal static Harmony? Harmony { get; set; }
 
@@ -26,12 +29,12 @@ namespace LethalEffectsAPI
             Patch();
             RegisterEffects();
 
-            Logger.LogInfo($"{MyPluginInfo.PLUGIN_GUID} v{MyPluginInfo.PLUGIN_VERSION} has loaded!");
+            Logger.LogInfo($"{GUID} v{VERSION} has loaded!");
         }
 
         internal static void Patch()
         {
-            Harmony ??= new Harmony(MyPluginInfo.PLUGIN_GUID);
+            Harmony ??= new Harmony(GUID);
 
             Logger.LogDebug("Patching...");
 
